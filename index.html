@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donirecom | Full Stack Development & Enterprise Software Solutions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        site: {
+                            bg: '#FDFBF7',
+                            card: '#FFFFFF',
+                            subtle: '#F4EFEA',
+                            border: '#E8DFD8'
+                        },
+                        dark: {
+                            DEFAULT: '#121212',
+                            soft: '#1E1E1E',
+                            muted: '#3B3B3B'
+                        },
+                        espresso: {
+                            DEFAULT: '#3D2314',
+                            light: '#5C3822',
+                            dark: '#26140A'
+                        },
+                        coffee: {
+                            DEFAULT: '#C89666',
+                            hover: '#B37D4A',
+                            gold: '#D4A373',
+                            light: '#F5EBE1'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #121212;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .text-coffee-gradient {
+            background: linear-gradient(135deg, #121212 0%, #3D2314 60%, #C89666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-glass-white {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid #E8DFD8;
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 30px -10px rgba(61, 35, 20, 0.08);
+            border: 1px solid #E8DFD8;
+        }
+
+        .card-shadow:hover {
+            box-shadow: 0 20px 40px -10px rgba(61, 35, 20, 0.16);
+            border-color: #C89666;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDFBF7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C89666;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-coffee selection:text-white overflow-x-hidden">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-glass-white border-b border-site-border transition-all duration-300" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-lg bg-espresso flex items-center justify-center font-serif text-2xl font-black text-coffee-gold shadow-md group-hover:bg-dark transition-colors">
+                        D
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif text-2xl font-bold tracking-wider text-dark group-hover:text-espresso transition-colors">DONIRECOM</span>
+                        <span class="text-[10px] tracking-widest text-espresso font-bold uppercase">Software Engineering & Architecture</span>
+                    </div>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                    <a href="#about" class="text-dark-muted hover:text-espresso transition-colors">About</a>
+                    <a href="#services" class="text-dark-muted hover:text-espresso transition-colors">Services</a>
+                    <a href="#techstack" class="text-dark-muted hover:text-espresso transition-colors">Tech Stack</a>
+                    <a href="#estimator" class="text-dark-muted hover:text-espresso transition-colors">Estimate Scope</a>
+                    <a href="#request-form" class="text-dark-muted hover:text-espresso transition-colors">Contact</a>
+                </nav>
+
+                <!-- Quick Action Header CTAs -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="tel:+2348064205626" class="text-dark font-bold text-sm flex items-center gap-2 hover:text-espresso transition-colors">
+                        <i class="fa-solid fa-phone text-coffee"></i>
+                        +234 806 420 5626
+                    </a>
+                    <a href="#request-form" class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-espresso hover:bg-dark rounded-md shadow-md transition-all">
+                        Request Service
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-dark hover:text-espresso p-2 focus:outline-none" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-site-border px-4 pt-2 pb-6 space-y-3">
+            <a href="#about" class="mobile-link block py-2 text-dark font-medium border-b border-site-subtle">About</a>
+            <a href="#services" class="mobile-link block py-2 text-dark font-medium border-b border-site-subtle">Services</a>
+            <a href="#techstack" class="mobile-link block py-2 text-dark font-medium border-b border-site-subtle">Tech Stack</a>
+            <a href="#estimator" class="mobile-link block py-2 text-dark font-medium border-b border-site-subtle">Estimate Scope</a>
+            <a href="#request-form" class="mobile-link block py-2 text-dark font-medium border-b border-site-subtle">Contact Form</a>
+            <div class="pt-2 flex flex-col gap-3">
+                <a href="tel:+2348064205626" class="text-espresso font-bold flex items-center justify-center gap-2 py-2 border border-espresso/20 rounded-md">
+                    <i class="fa-solid fa-phone"></i> +234 806 420 5626
+                </a>
+                <a href="#request-form" class="mobile-link text-center px-5 py-3 text-sm font-bold uppercase tracking-wider text-white bg-espresso rounded-md">
+                    Request Service
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="relative pt-32 pb-20 md:pt-44 md:pb-32 bg-gradient-to-b from-site-bg via-site-subtle/50 to-site-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Content -->
+                <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-site-border text-xs font-bold tracking-wider text-espresso uppercase shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Direct Line: +234 806 420 5626
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-black leading-tight tracking-tight text-dark">
+                        Enterprise Grade <br>
+                        <span class="text-coffee-gradient">Full Stack Software</span> Engineering.
+                    </h1>
+
+                    <p class="text-lg text-dark-muted max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                        At <strong class="text-espresso">Donirecom</strong>, we design, build, and deploy resilient web platforms, mobile applications, APIs, and automated systems tailored for businesses demanding maximum performance.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#request-form" class="w-full sm:w-auto px-8 py-4 text-sm font-bold uppercase tracking-wider text-white bg-espresso hover:bg-dark rounded-md shadow-lg transition-all duration-300 text-center">
+                            Request Service
+                        </a>
+                        <a href="https://wa.me/2348064205626?text=Hello%20Donirecom,%20I%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener" class="w-full sm:w-auto px-8 py-4 text-sm font-bold uppercase tracking-wider text-emerald-700 bg-white hover:bg-emerald-50 border border-emerald-300 rounded-md shadow-sm transition-all duration-300 text-center flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Direct
+                        </a>
+                    </div>
+
+                    <!-- Trust Metric Cards -->
+                    <div class="pt-8 border-t border-site-border grid grid-cols-3 gap-4">
+                        <div>
+                            <div class="font-serif text-3xl font-extrabold text-espresso">100%</div>
+                            <div class="text-xs text-dark-muted font-semibold uppercase tracking-wider mt-1">Full Stack Expertise</div>
+                        </div>
+                        <div>
+                            <div class="font-serif text-3xl font-extrabold text-espresso">Enterprise</div>
+                            <div class="text-xs text-dark-muted font-semibold uppercase tracking-wider mt-1">Security Standards</div>
+                        </div>
+                        <div>
+                            <div class="font-serif text-3xl font-extrabold text-espresso">Fast</div>
+                            <div class="text-xs text-dark-muted font-semibold uppercase tracking-wider mt-1">Turnaround Time</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code Card Profile Visual -->
+                <div class="lg:col-span-5">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <div class="rounded-2xl bg-dark text-white p-6 shadow-2xl border border-espresso/40 space-y-5">
+                            <div class="flex items-center justify-between border-b border-dark-muted/40 pb-4">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                                </div>
+                                <span class="text-xs font-mono text-coffee-gold">donirecom-spec.ts</span>
+                            </div>
+
+                            <div class="font-mono text-xs sm:text-sm space-y-2 text-gray-200">
+                                <div><span class="text-coffee-gold font-bold">const</span> <span class="text-white">Donirecom</span> = {</div>
+                                <div class="pl-4"><span class="text-coffee">brand:</span> <span class="text-emerald-300">'Corporate Software Solutions'</span>,</div>
+                                <div class="pl-4"><span class="text-coffee">contactPhone:</span> <span class="text-emerald-300">'+234 806 420 5626'</span>,</div>
+                                <div class="pl-4"><span class="text-coffee">targetEmail:</span> <span class="text-emerald-300">'ustanejnr@gmail.com'</span>,</div>
+                                <div class="pl-4"><span class="text-coffee">specialties:</span> [</div>
+                                <div class="pl-8 text-coffee-gold">'Full Stack Web Apps', 'Mobile Apps',</div>
+                                <div class="pl-8 text-coffee-gold">'APIs', 'Payment Integrations'</div>
+                                <div class="pl-4">],</div>
+                                <div class="pl-4"><span class="text-coffee">clientStatus:</span> <span class="text-amber-300">'Accepting Projects'</span></div>
+                                <div>};</div>
+                            </div>
+
+                            <div class="bg-espresso-dark p-4 rounded-xl border border-coffee/30 flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-coffee/20 flex items-center justify-center text-coffee-gold">
+                                        <i class="fa-solid fa-headset text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-bold text-white">Direct Developer Consultation</div>
+                                        <div class="text-xs text-gray-400">Phone / Email / WhatsApp</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-check text-coffee-gold"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 bg-site-bg relative border-t border-site-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-espresso">Full Stack Capabilities</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-dark">Services Offered By Donirecom</h2>
+                <div class="w-16 h-1 bg-espresso mx-auto rounded-full"></div>
+                <p class="text-dark-muted text-sm sm:text-base">
+                    Comprehensive web, mobile, database, and cloud engineering tailored to business goals.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Service 1: Web Apps -->
+                <div class="bg-white p-8 rounded-xl card-shadow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-site-subtle border border-site-border flex items-center justify-center text-espresso group-hover:bg-espresso group-hover:text-white transition-colors duration-300 mb-6">
+                        <i class="fa-solid fa-laptop-code text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-dark mb-3 group-hover:text-espresso transition-colors">Full Stack Web Development</h3>
+                    <p class="text-dark-muted text-sm leading-relaxed mb-4">
+                        Custom Single Page Applications (SPAs) and corporate portals built with React, Next.js, Node.js, Python (Django), and PHP Laravel.
+                    </p>
+                    <ul class="text-xs text-dark-muted space-y-2 border-t border-site-border pt-4 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> Responsive Desktop & Mobile Layouts</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> High Speed & SEO Architecture</li>
+                    </ul>
+                </div>
+
+                <!-- Service 2: Mobile Apps -->
+                <div class="bg-white p-8 rounded-xl card-shadow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-site-subtle border border-site-border flex items-center justify-center text-espresso group-hover:bg-espresso group-hover:text-white transition-colors duration-300 mb-6">
+                        <i class="fa-solid fa-mobile-screen-button text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-dark mb-3 group-hover:text-espresso transition-colors">Mobile App Development</h3>
+                    <p class="text-dark-muted text-sm leading-relaxed mb-4">
+                        Cross-platform iOS and Android mobile solutions created using Flutter and React Native for smooth performance and crisp UIs.
+                    </p>
+                    <ul class="text-xs text-dark-muted space-y-2 border-t border-site-border pt-4 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> Native iOS & Android Build</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> Push Notifications & Offline Sync</li>
+                    </ul>
+                </div>
+
+                <!-- Service 3: API & Integrations -->
+                <div class="bg-white p-8 rounded-xl card-shadow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-site-subtle border border-site-border flex items-center justify-center text-espresso group-hover:bg-espresso group-hover:text-white transition-colors duration-300 mb-6">
+                        <i class="fa-solid fa-network-wired text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-dark mb-3 group-hover:text-espresso transition-colors">API Design & Integrations</h3>
+                    <p class="text-dark-muted text-sm leading-relaxed mb-4">
+                        Secure RESTful & GraphQL backend APIs, microservices, and automated integrations using JWT and OAuth2 authorization.
+                    </p>
+                    <ul class="text-xs text-dark-muted space-y-2 border-t border-site-border pt-4 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> Swagger / OpenAPI Documentation</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> High Throughput & Scalability</li>
+                    </ul>
+                </div>
+
+                <!-- Service 4: Payment Integrations -->
+                <div class="bg-white p-8 rounded-xl card-shadow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-site-subtle border border-site-border flex items-center justify-center text-espresso group-hover:bg-espresso group-hover:text-white transition-colors duration-300 mb-6">
+                        <i class="fa-solid fa-credit-card text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-dark mb-3 group-hover:text-espresso transition-colors">E-Commerce & Payment Engines</h3>
+                    <p class="text-dark-muted text-sm leading-relaxed mb-4">
+                        Seamless payment integrations with Paystack, Flutterwave, Stripe, and custom e-commerce shopping engines with webhooks.
+                    </p>
+                    <ul class="text-xs text-dark-muted space-y-2 border-t border-site-border pt-4 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> Paystack, Flutterwave, Stripe</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> Webhooks & Automated Billing</li>
+                    </ul>
+                </div>
+
+                <!-- Service 5: Database Engineering -->
+                <div class="bg-white p-8 rounded-xl card-shadow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-site-subtle border border-site-border flex items-center justify-center text-espresso group-hover:bg-espresso group-hover:text-white transition-colors duration-300 mb-6">
+                        <i class="fa-solid fa-database text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-dark mb-3 group-hover:text-espresso transition-colors">Database Architecture</h3>
+                    <p class="text-dark-muted text-sm leading-relaxed mb-4">
+                        Relational schema design, query indexing, data migration, and optimization using PostgreSQL, MySQL, MongoDB, and Redis.
+                    </p>
+                    <ul class="text-xs text-dark-muted space-y-2 border-t border-site-border pt-4 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> PostgreSQL, MongoDB, Redis</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> Query Optimization & Indexing</li>
+                    </ul>
+                </div>
+
+                <!-- Service 6: Cloud & DevOps -->
+                <div class="bg-white p-8 rounded-xl card-shadow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-site-subtle border border-site-border flex items-center justify-center text-espresso group-hover:bg-espresso group-hover:text-white transition-colors duration-300 mb-6">
+                        <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-dark mb-3 group-hover:text-espresso transition-colors">Cloud Deployment & Support</h3>
+                    <p class="text-dark-muted text-sm leading-relaxed mb-4">
+                        Application deployment on AWS, Vercel, Render, or DigitalOcean with Docker, continuous deployment pipelines, and maintenance.
+                    </p>
+                    <ul class="text-xs text-dark-muted space-y-2 border-t border-site-border pt-4 font-medium">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> Docker & CI/CD Pipelines</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-espresso"></i> 24/7 Monitoring & Maintenance</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="techstack" class="py-20 bg-site-subtle border-t border-site-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-espresso">Core Engineering Stack</span>
+                <h2 class="text-3xl font-serif font-bold text-dark mt-1">Technologies Used</h2>
+            </div>
+
+            <!-- Tech Badges Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-brands fa-react text-3xl text-cyan-600 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">React / Next.js</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-brands fa-node-js text-3xl text-emerald-600 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">Node.js Express</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-brands fa-python text-3xl text-yellow-600 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">Python Django</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-brands fa-php text-3xl text-indigo-600 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">PHP Laravel</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-solid fa-mobile-screen text-3xl text-sky-500 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">Flutter</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-solid fa-database text-3xl text-blue-600 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">PostgreSQL</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-solid fa-leaf text-3xl text-emerald-500 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">MongoDB</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-brands fa-aws text-3xl text-amber-600 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">AWS Cloud</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-brands fa-docker text-3xl text-sky-600 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">Docker</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-solid fa-money-bill-transfer text-3xl text-espresso mb-2"></i>
+                    <span class="text-xs font-bold text-dark">Paystack / Stripe</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-brands fa-git-alt text-3xl text-orange-600 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">Git / GitHub</span>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-site-border flex flex-col items-center justify-center hover:border-espresso transition-all shadow-sm">
+                    <i class="fa-brands fa-js text-3xl text-amber-500 mb-2"></i>
+                    <span class="text-xs font-bold text-dark">TypeScript</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="estimator" class="py-24 bg-site-bg border-t border-site-border">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-espresso">Interactive Request Estimator</span>
+                <h2 class="text-3xl font-serif font-bold text-dark mt-1">Configure Your Project Scope</h2>
+                <p class="text-dark-muted text-sm mt-2">Select your parameters to estimate project turnaround and auto-fill your service request.</p>
+            </div>
+
+            <div class="bg-white p-6 sm:p-10 rounded-2xl border border-site-border shadow-xl space-y-8">
+                
+                <!-- Step 1: Base Type -->
+                <div>
+                    <label class="block text-xs font-bold text-espresso uppercase tracking-wider mb-4">1. Primary Application Type</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <button type="button" onclick="selectEstType(this, 'Web Application', '2 - 4 Weeks')" class="est-type-btn active p-4 rounded-xl border-2 border-espresso bg-site-subtle text-left transition-all">
+                            <span class="font-serif font-bold text-espresso text-base block">Web Application</span>
+                            <span class="text-xs text-dark-muted mt-1 block">Dynamic Portal, Dashboard, SaaS</span>
+                        </button>
+                        <button type="button" onclick="selectEstType(this, 'Mobile App (Flutter/React Native)', '3 - 6 Weeks')" class="est-type-btn p-4 rounded-xl border border-site-border bg-white text-left hover:border-espresso transition-all">
+                            <span class="font-serif font-bold text-dark text-base block">Mobile App</span>
+                            <span class="text-xs text-dark-muted mt-1 block">Cross-Platform iOS & Android</span>
+                        </button>
+                        <button type="button" onclick="selectEstType(this, 'Full E-Commerce Engine', '2 - 5 Weeks')" class="est-type-btn p-4 rounded-xl border border-site-border bg-white text-left hover:border-espresso transition-all">
+                            <span class="font-serif font-bold text-dark text-base block">E-Commerce Engine</span>
+                            <span class="text-xs text-dark-muted mt-1 block">Paystack/Stripe + Inventory</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Addon Modules -->
+                <div>
+                    <label class="block text-xs font-bold text-espresso uppercase tracking-wider mb-4">2. Core Modules & Integrations</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg bg-site-subtle border border-site-border cursor-pointer hover:border-espresso transition-colors">
+                            <input type="checkbox" onchange="calculateEstimate()" value="User Auth & Roles" class="est-addon rounded accent-espresso w-4 h-4">
+                            <span class="text-xs font-bold text-dark">User Auth & Security</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg bg-site-subtle border border-site-border cursor-pointer hover:border-espresso transition-colors">
+                            <input type="checkbox" onchange="calculateEstimate()" value="Paystack / Gateway Integration" class="est-addon rounded accent-espresso w-4 h-4">
+                            <span class="text-xs font-bold text-dark">Payment Gateway Integration</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg bg-site-subtle border border-site-border cursor-pointer hover:border-espresso transition-colors">
+                            <input type="checkbox" onchange="calculateEstimate()" value="Custom REST / GraphQL API" class="est-addon rounded accent-espresso w-4 h-4">
+                            <span class="text-xs font-bold text-dark">Custom API Backend</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg bg-site-subtle border border-site-border cursor-pointer hover:border-espresso transition-colors">
+                            <input type="checkbox" onchange="calculateEstimate()" value="Admin Control Dashboard" class="est-addon rounded accent-espresso w-4 h-4">
+                            <span class="text-xs font-bold text-dark">Admin Control Panel</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg bg-site-subtle border border-site-border cursor-pointer hover:border-espresso transition-colors">
+                            <input type="checkbox" onchange="calculateEstimate()" value="AWS Cloud Infrastructure" class="est-addon rounded accent-espresso w-4 h-4">
+                            <span class="text-xs font-bold text-dark">AWS / Cloud Setup</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg bg-site-subtle border border-site-border cursor-pointer hover:border-espresso transition-colors">
+                            <input type="checkbox" onchange="calculateEstimate()" value="Post-Launch Maintenance SLA" class="est-addon rounded accent-espresso w-4 h-4">
+                            <span class="text-xs font-bold text-dark">Post-Launch Care Plan</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 3: Calculation Summary -->
+                <div class="bg-site-subtle p-6 rounded-xl border border-site-border flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <div class="text-xs text-dark-muted font-bold uppercase">Configured Scope</div>
+                        <div class="text-xl font-serif font-bold text-espresso mt-1" id="est-display-type">Web Application</div>
+                        <div class="text-xs text-dark-muted mt-1 font-medium" id="est-display-addons">No additional modules selected</div>
+                    </div>
+                    <div class="text-right flex flex-col items-center md:items-end">
+                        <div class="text-xs text-dark-muted font-bold uppercase">Estimated Turnaround</div>
+                        <div class="text-lg font-bold text-espresso" id="est-display-time">2 - 4 Weeks</div>
+                        <button type="button" onclick="applyEstimateToForm()" class="mt-3 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white bg-espresso hover:bg-dark rounded transition-colors flex items-center gap-1.5">
+                            Apply To Request Form <i class="fa-solid fa-arrow-down"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="request-form" class="py-24 bg-site-subtle border-t border-site-border relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                <!-- Direct Contact Details Column -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-widest text-espresso">Client Direct Channel</span>
+                        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-dark mt-2">Get In Touch With Donirecom</h2>
+                        <div class="w-16 h-1 bg-espresso rounded-full my-4"></div>
+                        <p class="text-dark-muted text-sm leading-relaxed">
+                            Complete the form with your requirements. Your response routes directly to lead engineer inbox: <strong class="text-espresso">ustanejnr@gmail.com</strong>.
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Direct Phone Call -->
+                        <div class="flex items-start space-x-4 bg-white p-4 rounded-xl border border-site-border shadow-sm">
+                            <div class="w-12 h-12 rounded-xl bg-site-subtle flex items-center justify-center text-espresso shrink-0">
+                                <i class="fa-solid fa-phone text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs uppercase font-extrabold text-dark-muted tracking-wider">Direct Voice Call</h4>
+                                <a href="tel:+2348064205626" class="text-lg font-bold text-dark hover:text-espresso transition-colors">+234 806 420 5626</a>
+                                <p class="text-xs text-dark-muted font-medium">Instant Voice Contact</p>
+                            </div>
+                        </div>
+
+                        <!-- Direct WhatsApp -->
+                        <div class="flex items-start space-x-4 bg-white p-4 rounded-xl border border-site-border shadow-sm">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-700 shrink-0">
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs uppercase font-extrabold text-dark-muted tracking-wider">WhatsApp Business</h4>
+                                <a href="https://wa.me/2348064205626?text=Hello%20Donirecom,%20I%20have%20a%20project%20inquiry." target="_blank" rel="noopener" class="text-lg font-bold text-dark hover:text-emerald-700 transition-colors">+234 806 420 5626</a>
+                                <p class="text-xs text-dark-muted font-medium">Fastest Text Response</p>
+                            </div>
+                        </div>
+
+                        <!-- Direct Email -->
+                        <div class="flex items-start space-x-4 bg-white p-4 rounded-xl border border-site-border shadow-sm">
+                            <div class="w-12 h-12 rounded-xl bg-site-subtle flex items-center justify-center text-espresso shrink-0">
+                                <i class="fa-solid fa-envelope text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs uppercase font-extrabold text-dark-muted tracking-wider">Target Email</h4>
+                                <a href="mailto:ustanejnr@gmail.com" class="text-lg font-bold text-dark hover:text-espresso transition-colors">ustanejnr@gmail.com</a>
+                                <p class="text-xs text-dark-muted font-medium">Lead Developer Inbox</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Form Column -->
+                <div class="lg:col-span-7">
+                    <div class="bg-white p-8 sm:p-10 rounded-2xl border border-site-border shadow-xl relative">
+                        
+                        <h3 class="text-2xl font-serif font-bold text-dark mb-6">Service Request & Project Scope</h3>
+
+                        <!-- Formspree Endpoint to ustanejnr@gmail.com with Mailto trigger fallback -->
+                        <form id="client-request-form" action="https://formspree.io/f/ustanejnr@gmail.com" method="POST" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <!-- Full Name -->
+                                <div>
+                                    <label for="fullName" class="block text-xs font-bold uppercase tracking-wider text-dark-muted mb-2">Full Name / Business Name *</label>
+                                    <input type="text" name="name" id="fullName" required placeholder="John Doe" class="w-full px-4 py-3 rounded-lg bg-site-bg border border-site-border text-dark placeholder-dark-muted/50 focus:border-espresso focus:outline-none text-sm transition-all font-medium">
+                                </div>
+
+                                <!-- Email -->
+                                <div>
+                                    <label for="email" class="block text-xs font-bold uppercase tracking-wider text-dark-muted mb-2">Email Address *</label>
+                                    <input type="email" name="_replyto" id="email" required placeholder="client@company.com" class="w-full px-4 py-3 rounded-lg bg-site-bg border border-site-border text-dark placeholder-dark-muted/50 focus:border-espresso focus:outline-none text-sm transition-all font-medium">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <!-- Phone -->
+                                <div>
+                                    <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-dark-muted mb-2">Phone Number *</label>
+                                    <input type="tel" name="phone" id="phone" required placeholder="+234..." class="w-full px-4 py-3 rounded-lg bg-site-bg border border-site-border text-dark placeholder-dark-muted/50 focus:border-espresso focus:outline-none text-sm transition-all font-medium">
+                                </div>
+
+                                <!-- Selected Service -->
+                                <div>
+                                    <label for="serviceType" class="block text-xs font-bold uppercase tracking-wider text-dark-muted mb-2">Service Required *</label>
+                                    <select name="service" id="serviceType" required class="w-full px-4 py-3 rounded-lg bg-site-bg border border-site-border text-dark focus:border-espresso focus:outline-none text-sm transition-all font-medium">
+                                        <option value="Full-Stack Web Application">Full Stack Web Application</option>
+                                        <option value="Mobile App Development">Mobile App (Flutter / React Native)</option>
+                                        <option value="API Design & Integration">API Design & Integration</option>
+                                        <option value="E-Commerce & Payments">E-Commerce & Payment Engine</option>
+                                        <option value="Database Engineering">Database Architecture & Optimization</option>
+                                        <option value="Cloud Deployment">Cloud Deployment & Maintenance</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <!-- Budget -->
+                                <div>
+                                    <label for="budget" class="block text-xs font-bold uppercase tracking-wider text-dark-muted mb-2">Budget Range</label>
+                                    <select name="budget" id="budget" class="w-full px-4 py-3 rounded-lg bg-site-bg border border-site-border text-dark focus:border-espresso focus:outline-none text-sm transition-all font-medium">
+                                        <option value="$500 - $1,500">$500 - $1,500</option>
+                                        <option value="$1,500 - $3,500" selected>$1,500 - $3,500</option>
+                                        <option value="$3,500 - $10,000">$3,500 - $10,000</option>
+                                        <option value="$10,000+">$10,000+</option>
+                                    </select>
+                                </div>
+
+                                <!-- Timeline -->
+                                <div>
+                                    <label for="timeline" class="block text-xs font-bold uppercase tracking-wider text-dark-muted mb-2">Desired Timeline</label>
+                                    <select name="timeline" id="timeline" class="w-full px-4 py-3 rounded-lg bg-site-bg border border-site-border text-dark focus:border-espresso focus:outline-none text-sm transition-all font-medium">
+                                        <option value="1 - 2 Weeks (Urgent)">1 - 2 Weeks (Urgent)</option>
+                                        <option value="3 - 6 Weeks" selected>3 - 6 Weeks</option>
+                                        <option value="Flexible">Flexible</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Detailed Scope -->
+                            <div>
+                                <label for="projectDetails" class="block text-xs font-bold uppercase tracking-wider text-dark-muted mb-2">Describe What You Want Built *</label>
+                                <textarea name="message" id="projectDetails" rows="4" required placeholder="Describe your web/mobile project, desired features, goals, or target audience..." class="w-full px-4 py-3 rounded-lg bg-site-bg border border-site-border text-dark placeholder-dark-muted/50 focus:border-espresso focus:outline-none text-sm transition-all font-medium"></textarea>
+                            </div>
+
+                            <!-- Submit CTA -->
+                            <button type="submit" id="submit-btn" class="w-full py-4 px-6 text-sm font-bold uppercase tracking-widest text-white bg-espresso hover:bg-dark rounded-lg shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 group">
+                                <span>Submit Request To Donirecom</span>
+                                <i class="fa-solid fa-paper-plane text-xs transform group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+
+                            <p class="text-[11px] text-center text-dark-muted font-medium">
+                                Target Email: <span class="text-espresso font-bold">ustanejnr@gmail.com</span>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end space-y-3">
+        <!-- WhatsApp Floating Button -->
+        <a href="https://wa.me/2348064205626?text=Hello%20Donirecom,%20I%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-xl hover:bg-emerald-500 hover:scale-110 transition-all duration-300 group relative" title="WhatsApp Chat">
+            <i class="fa-brands fa-whatsapp text-2xl"></i>
+            <span class="absolute right-14 bg-dark text-white text-xs px-3 py-1 rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                WhatsApp Chat
+            </span>
+        </a>
+
+        <!-- Call Floating Button -->
+        <a href="tel:+2348064205626" class="w-12 h-12 rounded-full bg-espresso text-white flex items-center justify-center shadow-xl hover:bg-dark hover:scale-110 transition-all duration-300 group relative" title="Call Directly">
+            <i class="fa-solid fa-phone text-lg"></i>
+            <span class="absolute right-14 bg-dark text-white text-xs px-3 py-1 rounded shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                +234 806 420 5626
+            </span>
+        </a>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 z-50 bg-dark/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white border border-site-border rounded-2xl p-8 max-w-md w-full text-center space-y-6 shadow-2xl">
+            <div class="w-16 h-16 bg-espresso/10 text-espresso rounded-full flex items-center justify-center mx-auto text-3xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <h3 class="text-2xl font-serif font-bold text-dark">Request Dispatched!</h3>
+                <p class="text-sm text-dark-muted mt-2">
+                    Your response details have been compiled and transmitted to <span class="text-espresso font-bold">ustanejnr@gmail.com</span>. We will contact you shortly.
+                </p>
+            </div>
+            <button onclick="closeModal()" class="w-full py-3 text-xs font-bold uppercase tracking-wider text-white bg-espresso hover:bg-dark rounded-lg transition-colors">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white border-t border-espresso/30 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded bg-espresso text-coffee-gold flex items-center justify-center font-serif text-lg font-bold">
+                        D
+                    </div>
+                    <span class="font-serif text-xl font-bold tracking-wider text-white">DONIRECOM</span>
+                </div>
+
+                <div class="text-xs text-gray-400 text-center md:text-left">
+                    &copy; <span id="year"></span> Donirecom Corporate Full Stack Development. All Rights Reserved.
+                </div>
+
+                <div class="flex items-center space-x-6 text-sm text-gray-300 font-medium">
+                    <a href="tel:+2348064205626" class="hover:text-coffee transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-phone text-xs text-coffee"></i> +234 806 420 5626
+                    </a>
+                    <a href="mailto:ustanejnr@gmail.com" class="hover:text-coffee transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-envelope text-xs text-coffee"></i> Email
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set dynamic copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile drawer navigation toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Estimator State
+        let currentEstType = 'Web Application';
+        let currentTimeline = '2 - 4 Weeks';
+
+        function selectEstType(element, typeName, timeline) {
+            document.querySelectorAll('.est-type-btn').forEach(btn => {
+                btn.classList.remove('border-2', 'border-espresso', 'bg-site-subtle');
+                btn.classList.add('border', 'border-site-border', 'bg-white');
+                const titleElem = btn.querySelector('.font-serif');
+                if (titleElem) {
+                    titleElem.classList.remove('text-espresso');
+                    titleElem.classList.add('text-dark');
+                }
+            });
+
+            element.classList.remove('border', 'border-site-border', 'bg-white');
+            element.classList.add('border-2', 'border-espresso', 'bg-site-subtle');
+            const activeTitle = element.querySelector('.font-serif');
+            if (activeTitle) {
+                activeTitle.classList.remove('text-dark');
+                activeTitle.classList.add('text-espresso');
+            }
+
+            currentEstType = typeName;
+            currentTimeline = timeline;
+            calculateEstimate();
+        }
+
+        function calculateEstimate() {
+            const checkboxes = document.querySelectorAll('.est-addon:checked');
+            const selectedAddons = Array.from(checkboxes).map(cb => cb.value);
+
+            document.getElementById('est-display-type').textContent = currentEstType;
+
+            if (selectedAddons.length > 0) {
+                document.getElementById('est-display-addons').textContent = 'Modules: ' + selectedAddons.join(', ');
+                document.getElementById('est-display-time').textContent = '3 - 6 Weeks';
+            } else {
+                document.getElementById('est-display-addons').textContent = 'No additional modules selected';
+                document.getElementById('est-display-time').textContent = currentTimeline;
+            }
+        }
+
+        function applyEstimateToForm() {
+            const checkboxes = document.querySelectorAll('.est-addon:checked');
+            const selectedAddons = Array.from(checkboxes).map(cb => cb.value);
+
+            const serviceSelect = document.getElementById('serviceType');
+            if (currentEstType.includes('Mobile')) {
+                serviceSelect.value = 'Mobile App Development';
+            } else if (currentEstType.includes('Commerce')) {
+                serviceSelect.value = 'E-Commerce & Payments';
+            } else {
+                serviceSelect.value = 'Full-Stack Web Application';
+            }
+
+            const detailsBox = document.getElementById('projectDetails');
+            let text = `Selected Base: ${currentEstType}\n`;
+            if (selectedAddons.length > 0) {
+                text += `Required Modules: ${selectedAddons.join(', ')}\n`;
+            }
+            text += `\nAdditional requirements: `;
+
+            detailsBox.value = text;
+            document.getElementById('request-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form submission with mailto direct fallback trigger
+        function handleFormSubmit(event) {
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('serviceType').value;
+            const budget = document.getElementById('budget').value;
+            const timeline = document.getElementById('timeline').value;
+            const details = document.getElementById('projectDetails').value;
+
+            const recipient = "ustanejnr@gmail.com";
+            const subject = encodeURIComponent(`[Donirecom Client Inquiry] - ${service} for ${name}`);
+            const bodyText = `NEW CLIENT SERVICE REQUEST\n` +
+                `-----------------------------------------\n` +
+                `Name: ${name}\n` +
+                `Email: ${email}\n` +
+                `Phone: ${phone}\n` +
+                `Service Requested: ${service}\n` +
+                `Budget Range: ${budget}\n` +
+                `Target Timeline: ${timeline}\n` +
+                `-----------------------------------------\n` +
+                `Project Details:\n${details}\n`;
+
+            const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+            
+            // Mail client trigger fallback
+            setTimeout(() => {
+                window.location.href = mailtoUrl;
+            }, 500);
+
+            document.getElementById('confirmation-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('confirmation-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
